@@ -4,7 +4,7 @@ Welcome to my webpage! I am a Sr. Science Integration Analyst at the Walt Disney
 
 I was predisposed to discover the efficient "path-finding" - from constructing toy train rail-road network as a kid, to unearthing the latent network structures in social pheomena in time-space perspective as a statistician. That being said, my life resolution is to find efficient paths under various environmental or social hazards, such as evacuation, traffic alleviation, resource allocation, urban-planning, and geo-politics etc. for facilitating more sustainable society while using statistics as primary means to accomplish such.
 
-Although I was born in Tokyo, Japan, I spent my childhood in Beijing, China / K-12 in Fukushima, Japan / community college in Riverside, California.
+Although I was born in Tokyo, Japan, I spent my childhood in Beijing, China / K-12 in Fukushima, Japan / community college in Norco, California.
 
 ## Research Interests in Statistics
 
