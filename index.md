@@ -24,7 +24,7 @@ Although I was born in Tokyo, Japan, I spent my childhood in Beijing, China / K-
 
 - GRE General
 
-- GRE Vocabulary Sheet Creation
+- [GRE Vocabulary Sheet Creation](https://drive.google.com/file/d/1WCgClYW0nhTH5zjxM74EgqCnmDhAwnPJ/view?usp=sharing)
 
 - Time-Series Analysis Note (Private)
 
