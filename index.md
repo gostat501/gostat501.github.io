@@ -1,22 +1,26 @@
 # "Go stat!"
 
-Welcome to my webpage! I am a Sr. Science Integration Analyst at the Walt Disney Company (under furlough). My undergraduate degree is a B.S. in Statistics and Minor in Mathematics with summa cum laude at University of California, Los Angeles in June 2019. During my undergraduate period, I was a research assistant under the supervision of Prof.Frederic Schoenberg. I am currently in a transitory period in preparation of pursuing a PhD program in Statistics, dedicating my entire time studying for GRE and compiling up my knowledge and fidings in Time-Series Analysis.
+Welcome to my webpage! I am a Sr. Science Integration Analyst at the Walt Disney Company (under furlough). My undergraduate degree is a B.S. in Statistics and Minor in Mathematics with summa cum laude at University of California, Los Angeles (2019). During my undergraduate period, I was a research assistant under the supervision of Prof.Frederic Paik Schoenberg. I am currently in a transitory period in preparation of pursuing a PhD program in Statistics, dedicating my entire time studying for GRE, documenting, and compiling up my knowledge and fidings in Time-Series Analysis.
 
-I was predisposed to discover the efficient "path-finding" - from constructing toy train rail-road network as a kid, to unearthing the latent network structures in social pheomena in time-space perspective as a statistician. That being said, my life resolution is to find efficient paths under various environmental or social hazards, such as evacuation, traffic alleviation, resource allocation, urban-planning, and geo-politics etc. for facilitating more sustainable society while using statistics as primary means to accomplish such.
-
-Although I was born in Tokyo, Japan, I spent my childhood in Beijing, China / K-12 in Fukushima, Japan / community college in Norco, California.
+As a survivor of numbers of catastrophic upheavals throughout the world – SARS at Beijing, China 2003, Tohoku earthquake and its proceeding powerplant meltdown at Fukushima, Japan 2011, and the concurrent COVID-19 pandemic – I am guided to comprehend hazardous events and systematize the resilient society in which human lives can be saved under such events. That being said, my life resolution is to analyze various environmental/social hazards and to construct ways of circumventing such events via Statistics and Mathematics as primary means.
 
 ## Research Interests in Statistics
 
 - High-dimensional Statistics
 
-- Spatiotemporal Point Process
+- Point Process
 
 - Network Analysis
+
+- Graphical Models
 
 - Stochastic Optimization
 
 - Baysian methodologies
+
+- Hierarchical Modeling
+
+- Changepoint Detection and Distribution Shift
 
 - Markov Chain Monte Carlo
 
@@ -24,9 +28,16 @@ Although I was born in Tokyo, Japan, I spent my childhood in Beijing, China / K-
 
 - GRE General
 
-- [GRE Vocabulary Sheet Creation (contains 4,000+ words)](https://drive.google.com/file/d/1WCgClYW0nhTH5zjxM74EgqCnmDhAwnPJ/view?usp=sharing)
+- Fellowship Prep
+
+- PhD Application Prep
 
 - Time-Series Analysis Note (Private)
+
+- [Docker Hub Study (Udemy, Japanese)](https://www.udemy.com/course/aidocker/learn/lecture/20294617#overview)
+
+- [GRE Vocabulary Sheet Creation (contains 4,000+ words)](https://drive.google.com/file/d/1WCgClYW0nhTH5zjxM74EgqCnmDhAwnPJ/view?usp=sharing)
+
 
 
 
