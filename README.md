@@ -13,5 +13,5 @@ My objectives in the next 5 years is to pursue a PhD degree in Statistics, speci
 - Spatio-temporal Statistics
 - Stochastic Optimization
 - Distribution-Shift and Stationarity
-- 
+
 with applications to the fields of social-science, economics, bussiness, media-study, and national security.
