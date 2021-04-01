@@ -15,3 +15,11 @@ My objectives in the next 5 years is to pursue a Ph.D. degree in Statistics, spe
 - Distribution-Shift and Stationarity
 
 with applications to social-science, economics, bussiness, media-study, and national security.
+
+# Resources
+
+- [Python Data Manipultion Note](https://github.com/Gostat501/Python-Data-Manipulation-Note/blob/master/Data%20Manipulation%20Note.ipynb)
+- 
+
+
+
