@@ -19,7 +19,7 @@ with applications to social-science, economics, bussiness, media-study, and nati
 # Resources
 
 - [Python Data Manipultion Note](https://github.com/Gostat501/Python-Data-Manipulation-Note/blob/master/Data%20Manipulation%20Note.ipynb)
-- 
+- [UCLA STATS102B Practice Midterm](https://github.com/Gostat501/gostat501.github.io/tree/master/file/2019.04_UCLA_STATS102B_practice_midterm)
 
 
 
