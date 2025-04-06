@@ -2,6 +2,9 @@ theme: jekyll-theme-midnight
 title: Gostat
 url: "https://gostat501.github.io"
 
+include:
+  - _pages
+  
 # Apply default layout to pages in _pages/
 defaults:
   - scope:
