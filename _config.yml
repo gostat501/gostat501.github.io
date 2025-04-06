@@ -1,5 +1,6 @@
 theme: jekyll-theme-midnight
-title: Go Ito
+title: Gostat
+url: "https://gostat501.github.io"
 
 # Apply default layout to pages in _pages/
 defaults:
