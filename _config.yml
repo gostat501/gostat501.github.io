@@ -1,2 +1,10 @@
 theme: jekyll-theme-midnight
 title: Go Ito
+
+# Apply default layout to pages in _pages/
+defaults:
+  - scope:
+      path: "_pages"
+      type: "pages"
+    values:
+      layout: default
