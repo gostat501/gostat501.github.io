@@ -1,4 +1,4 @@
-# "Go stat!"
+# Bio
 
 I'm currently a Senior Decision Science Product Consultant at Disney's Decision Science and Integration team. In this role, I wear multiple hats acting as a product manager, data engineer, and data scientist to support business decision-making through data. My work sits at the intersection of finance and Disney's diverse business areas, including theme parks, media streaming, YouTube, and more.
 
@@ -10,10 +10,13 @@ Looking ahead, my goal over the next five years is to pursue a Ph.D. in Statisti
 
 - Causal Inference in Dynamic Networks: While causal inference has made strides in both time-series and network settings, real-world problems rarely fit neatly into just one of those categories. Many phenomena especially in observational settings combine temporal and network characteristics. This hybrid space remains underexplored despite its real-world significance. I hope to contribute to this emerging field, particularly with applications in computational social science and simulation-based modeling for understanding dynamics in society, economics, business, and politics.
 
+# Contact
+
+- [LinkedIn](https://www.linkedin.com/in/goito/)
+
 # Resources
 
 These are some documents of mine that could be useful for undergraduates.
 
-- [Python Data Manipultion Note](https://github.com/Gostat501/Python-Data-Manipulation-Note/blob/master/Data%20Manipulation%20Note.ipynb)
 - [UCLA STATS102B Practice Midterm](https://github.com/Gostat501/gostat501.github.io/tree/master/file/2019.04_UCLA_STATS102B_practice_midterm)
 - [About](/about/) 
