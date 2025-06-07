@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Go Ito">
+
+<title>Causal Inference</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="causal_files/libs/clipboard/clipboard.min.js"></script>
+<script src="causal_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="causal_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="causal_files/libs/quarto-html/popper.min.js"></script>
+<script src="causal_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="causal_files/libs/quarto-html/anchor.min.js"></script>
+<link href="causal_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="causal_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="causal_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="causal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="causal_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Causal Inference</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Go Ito </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="to-do" class="level1">
+<h1>To-Do</h1>
+<ul>
+<li><p>Skim SWIG 6/6</p></li>
+<li><p>Skim 19.5. Q: blocking backdoor criterion does not directly show the connection between blocking backdoor parhhts and sequential exchangeability, because the procedure is based on causal directed acyclic graphst that do not include counterfactual outcomes” - what do you mean</p></li>
+</ul>
+<p><img src="images/clipboard-3862352408.png" class="img-fluid"></p>
+<p><img src="images/clipboard-4143449233.png" class="img-fluid"></p>
+<p><img src="images/clipboard-2778865624.png" class="img-fluid"></p>
+<ul>
+<li><p>Skim 19.6</p></li>
+<li><p>Quarto all 3 items above</p></li>
+<li><p>Skim read headers of Ch20 - 22 sections, set expectations and write down ideas</p></li>
+<li><p>Decide a temporal switch to network x causal</p></li>
+</ul>
+<section id="library" class="level2">
+<h2 class="anchored" data-anchor-id="library">Library</h2>
+</section>
+<section id="resource" class="level2">
+<h2 class="anchored" data-anchor-id="resource">Resource</h2>
+<ul>
+<li><a href="http://miguelhernan.org/whatifbook" class="uri">http://miguelhernan.org/whatifbook</a></li>
+</ul>
+</section>
+</section>
+<section id="causal-inference-without-models" class="level1">
+<h1>Causal Inference without Models</h1>
+<section id="basicsnotes" class="level2">
+<h2 class="anchored" data-anchor-id="basicsnotes">Basics/Notes</h2>
+<section id="difference-between-a-and-a" class="level3">
+<h3 class="anchored" data-anchor-id="difference-between-a-and-a">Difference between A and a</h3>
+<ul>
+<li><p><span class="math inline">\(A\)</span> : random variable. A very typical predictor (or column in a dataset) to an outcome <span class="math inline">\(Y\)</span> to any model that can be considered without a causal framework. In a DAG framework with a measured covariate <span class="math inline">\(L\)</span> and an outcome <span class="math inline">\(Y\)</span>, they coincide as conditional independence, not a causal semantics. However, when you declare the DAG “causal” and thus assume each node (variables) is generated by a structural equation, do-calculus now have meaning and override the equation for <span class="math inline">\(A\)</span> and set <span class="math inline">\(A=a\)</span> .</p></li>
+<li><p><span class="math inline">\(a\)</span>: has two meanings, and they coincide only under <strong>consistency</strong> assumption.</p>
+<ul>
+<li><p><strong>Factual value</strong> - the realized treatment value naturally happened to be that number i.e., just a value in a column <span class="math inline">\(A\)</span> in observational study, <span class="math inline">\(P(Y|A=a, L)\)</span></p></li>
+<li><p><strong>Interventional value</strong> - the value you impose in a experimental world, <span class="math inline">\(E[Y^a],\quad P(Y|\text{do}(A=a))\)</span></p></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="confounding" class="level2">
+<h2 class="anchored" data-anchor-id="confounding">Confounding</h2>
+<section id="single-world-intervention-graphs" class="level3">
+<h3 class="anchored" data-anchor-id="single-world-intervention-graphs">Single-World Intervention Graphs</h3>
+</section>
+</section>
+</section>
+<section id="time-varying-causal-inference" class="level1">
+<h1>Time-Varying Causal Inference</h1>
+<section id="time-varying-treatment" class="level2">
+<h2 class="anchored" data-anchor-id="time-varying-treatment">Time-Varying Treatment</h2>
+<section id="definition-of-causal-effects-on-time" class="level3">
+<h3 class="anchored" data-anchor-id="definition-of-causal-effects-on-time">Definition of Causal Effects on Time</h3>
+<p><strong>Time-fixed Treatment:</strong> Only captures the average causal effect in a snapshot.</p>
+<p><span class="math display">\[
+E[Y^{a=1}] - E[Y^{a=0}]
+\]</span></p>
+<p><strong>Time-varying Treatment:</strong> A person can switch treatment over time, with a treatment history <span class="math inline">\(\bar{A} = (a_0, a_1,\dots,a_K)\)</span> for <span class="math inline">\(0\leq k \leq K\)</span>. Suppose that <span class="math inline">\(Y\)</span> is the outcome at the end of follow-up <span class="math inline">\(\bar{A}\)</span>, at time <span class="math inline">\(K+1\)</span>. We can no longer define the average causal effect of at a single time <span class="math inline">\(k\)</span> only i.e., <span class="math inline">\(E[Y^{a_k=1}] - E[Y^{a_k=0}]\)</span>. We define average causal effect as a contrast between the counterfactual mean outcomes under two different series of treatment strategies <span class="math inline">\(\bar{A}\)</span> and <span class="math inline">\(\bar{A}'\)</span> at all time (0 to K) <span class="math inline">\(E[Y^{\bar{a}}] - E[Y^{\bar{a}'}]\)</span>. Thus, the definition of this ACE of a time-varying treatment is not uniquely defined.</p>
+<hr>
+</section>
+<section id="treatment-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="treatment-strategy">Treatment Strategy</h3>
+<p>Treatment strategy <span class="math inline">\(g\)</span> is a rule to assign treatment at each time <span class="math inline">\(k\)</span> of follow-up. There are many possible treatment strategies that may or may not depend on the evolution of an individual’s treatment history or time-varying covariate(s) <span class="math inline">\(\bar{L}_k\)</span>. These could be considered (but not limited to) as the combination of the following two ideas:</p>
+<section id="deterministic-vs.-random-treatment-strategies" class="level4">
+<h4 class="anchored" data-anchor-id="deterministic-vs.-random-treatment-strategies">Deterministic vs.&nbsp;Random Treatment Strategies</h4>
+<ul>
+<li><p><strong>Deterministic Treatment Strategies</strong>: A rule that assign a particular value of treatment <span class="math inline">\(a_k\)</span> (0 or 1) to each individual at each time.</p></li>
+<li><p><strong>Random Treatment Strategies</strong>: A rule that assign a probability of receiving a treatment value.</p></li>
+</ul>
+</section>
+<section id="statics-vs.-dynamic-treatment-strategies" class="level4">
+<h4 class="anchored" data-anchor-id="statics-vs.-dynamic-treatment-strategies">Statics vs.&nbsp;Dynamic Treatment Strategies</h4>
+<ul>
+<li><p><strong>Static Treatment Strategies:</strong> A rule <span class="math inline">\(g = [g_0(\bar{a}_{-1}), \dots, g_0(\bar{a}_{K-1})]\)</span> where <span class="math inline">\(g_k(\bar{a}_{k-1})\)</span> depends on its past treatment history but does not depend on time-varying covariate(s) <span class="math inline">\(\bar{l}_k\)</span>. Examples:</p>
+<ul>
+<li><p>“always treat”: <span class="math inline">\(\bar{a} = (1,1,\dots,1) = \bar{1}\)</span></p></li>
+<li><p>“never treat”: <span class="math inline">\(\bar{a} = (0,0,\dots,0) = \bar{0}\)</span></p></li>
+</ul></li>
+<li><p><strong>Dynamic Treatment Strategies:</strong> A rule <span class="math inline">\(g = [g_0(\bar{a}_{-1}, l_{0}), \dots, g_0(\bar{a}_{K-1}, \bar{l}_{K})]\)</span> where <span class="math inline">\(g_k(\bar{a}_{k-1}, \bar{l}_k)\)</span> depends on both its past treatment history and time-varying covariate(s) <span class="math inline">\(\bar{l}_k\)</span> at each time <span class="math inline">\(k\)</span>.</p>
+<ul>
+<li>Dynamic treatment strategy can also be denoted as a recursion of its past <span class="math inline">\(g\)</span> , a dynamic strategy <span class="math inline">\(g' = [g'_0(\bar{l}_0),\dots,g'_K(\bar{l}_K)]\)</span>, where <span class="math inline">\(g'_k(\bar{l}_k) = g_{k}(g'_{k}(\bar{l}_{k-1}), \bar{l}_{k})\)</span> with <span class="math inline">\(g'_0(\bar{l}_{0}) = g_{0}(a'_{-1}=0,\bar{l}_{0})\)</span>. This definition of <span class="math inline">\(g'\)</span> guarantees that an individual has followed strategy <span class="math inline">\(g\)</span> through time <span class="math inline">\(t\)</span> in observed data i.e., <span class="math inline">\(A_{k} = g_k (\bar{A}_{k-1}, \bar{L}_k)\)</span> for <span class="math inline">\(k\leq t\)</span>, if and only if the individual has followed strategy <span class="math inline">\(g'\)</span> through time <span class="math inline">\(t\)</span> in observed data i.e., <span class="math inline">\(A_{k} = g_k' (\bar{L}_k)\)</span> for <span class="math inline">\(k\leq t\)</span>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="optimal-treatment-strategy" class="level4">
+<h4 class="anchored" data-anchor-id="optimal-treatment-strategy">Optimal Treatment Strategy</h4>
+<p>A strategy <span class="math inline">\(g\)</span> maximizes the mean counterfactual outcome <span class="math inline">\(E[Y^g]\)</span> (in a positive direction) is referred as <strong>optimal treatment strategy</strong>. In practice, optimal treatment strategies are almost always dynamic (e.g., discontinue drug testing by poison-level, spread marketing on seasonal peak) and often be preferred over random strategy (optimization vs.&nbsp;randomization). However, random strategy (randomized trial) is scientifically important to identify which deterministic strategy is optimal.</p>
+<hr>
+</section>
+</section>
+<section id="sequentially-randomized-experiment" class="level3">
+<h3 class="anchored" data-anchor-id="sequentially-randomized-experiment">Sequentially Randomized Experiment</h3>
+<p>An experiment in which treatment assignment <span class="math inline">\(A_k\)</span> is random at each time <span class="math inline">\(k\)</span> to each individual is referred to as <strong>sequentially randomized experiment (SRE)</strong>. It can be represented by a causal diagram at time points <span class="math inline">\(k = 0, 1, \dots, K\)</span> and with no direct arrows from unmeasured prognostic factors / covariate(s) <span class="math inline">\(U\)</span> into treatment <span class="math inline">\(A_k\)</span> at any time <span class="math inline">\(k\)</span>.</p>
+<p><strong>Key Point:</strong> Assuming that a treatment assignment <span class="math inline">\(A_k\)</span> at each time <span class="math inline">\(k\)</span> depends on its past treatment history by default</p>
+<ul>
+<li><p><strong>Case 1</strong>: A treatment assignment <span class="math inline">\(A _k\)</span> with NO dependence on unmeasured covariate(s) <span class="math inline">\(\bar{U}_k\)</span> and measured covariate(s) <span class="math inline">\(\bar{L}_k\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>SRE</strong></p>
+<ul>
+<li>Static treatment strategy under this scenario yields the counterfactual outcome mean equal to the mean outcome <span class="math inline">\(E[Y^{\bar{a}}] = E[Y|\bar{A}={\bar{a}}]\)</span>. This is not true for dynamic treatment strategy <span class="math inline">\(g\)</span>, and the estimation of <span class="math inline">\(E[Y^g]\)</span> would require the application of <strong>g-methods</strong>.</li>
+</ul></li>
+</ul>
+<p><img src="images/clipboard-1409898166.png" class="img-fluid"></p>
+<ul>
+<li><strong>Case 2</strong>: A treatment assignment <span class="math inline">\(A _k\)</span> with NO dependence on unmeasured covariate(s) <span class="math inline">\(\bar{U}_k\)</span> BUT with dependence on measured covariate(s) <span class="math inline">\(\bar{L}_k\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>SRE</strong></li>
+</ul>
+<p><img src="images/clipboard-2970662127.png" class="img-fluid"></p>
+<ul>
+<li><strong>Case 3</strong>: A treatment assignment <span class="math inline">\(A _k\)</span> with dependence on unmeasured covariate(s) <span class="math inline">\(\bar{U}_k\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>not SRE</strong>, one cannot correctly assign treatment randomly with a guarantee</li>
+</ul>
+<p><img src="images/clipboard-1129067845.png" class="img-fluid"></p>
+<section id="observational-study" class="level4">
+<h4 class="anchored" data-anchor-id="observational-study">Observational Study</h4>
+<p>For observational study, <strong>Case 2</strong> and <strong>Case 3</strong> are the most typical scenarios given the nature of decisions about treatment assignment <span class="math inline">\(A_k\)</span> often being determined by prognostic factors. However, it is impossible to determine weather it is <strong>Case 2</strong> or <strong>Case 3</strong>.</p>
+<p>For <strong>Case 2</strong>, the main difference against SRE is that the assignment probabilities are unknown but estimable from data.</p>
+<hr>
+</section>
+</section>
+<section id="sequential-identifiability---exchangeability-positivity-and-consistency" class="level3">
+<h3 class="anchored" data-anchor-id="sequential-identifiability---exchangeability-positivity-and-consistency">Sequential Identifiability - Exchangeability, Positivity, and Consistency</h3>
+<p>Under the three identifiability conditions - exchangeability, positivity, and consistency - we can identify the mean counterfactual outcome <span class="math inline">\(E[Y^g]\)</span> under a strategy of interest <span class="math inline">\(g\)</span> as long as we use methods that approproately adjust for treatment and covariate history <span class="math inline">\((\bar{A}_{k-1}, \bar{L}_{k})\)</span> such as g-formula, IPW, g-estimation (next chapter). All three conditions need to be generalized from the fixed version to the sequential version, including both static and dynamic strategies.</p>
+<section id="sequential-exchangeability" class="level4">
+<h4 class="anchored" data-anchor-id="sequential-exchangeability">Sequential Exchangeability</h4>
+<p>For any strategy <span class="math inline">\(g\)</span>, treated and untreated at each time <span class="math inline">\(k\)</span> are exchangeable for <span class="math inline">\(Y^g\)</span> conditional on prior covariate history <span class="math inline">\(\bar{L}_k\)</span> and any observed treatment history <span class="math inline">\(\bar{A}_{k-1} = g(\bar{A}_{k-2}, \bar{L}_{k-1})\)</span> compatible with <span class="math inline">\(g\)</span>. One formal definition:</p>
+<p><span class="math display">\[
+Y^g \perp A_k|\bar{A}_{k-1} = g(\bar{A}_{k-2}, \bar{L}_{k-1}), \bar{L}_{k} \text{ for all strategies } g \text{ and } k = 1,2,\dots,K
+\]</span></p>
+<p>This form of sequential exchangeability for <span class="math inline">\(Y^g\)</span> always hold for cases (such as <strong>Case 2</strong>) with no unmeasured covariate(s) <span class="math inline">\(\bar {U}_k\)</span>affecting the treatment and measured covariate history <span class="math inline">\((\bar{A}_{k-1}, \bar{L}_{k})\)</span>. Thus, sequential exchangeability holds for sequential randomized experiment and observational study, and their mean of the counterfactual outcome <span class="math inline">\(E[Y^g]\)</span> under all strategies <span class="math inline">\(g\)</span> is identified.</p>
+<p>For cases other than <strong>Case 2</strong>, mean counterfactual outcome <span class="math inline">\(E[Y^g]\)</span> under for some but not all strategies <span class="math inline">\(g\)</span> is identifiable, even with a presense of additional unmeasured covariate(s) <span class="math inline">\(\bar{W}\)</span>. In the example <strong>Case 4</strong> below with <span class="math inline">\(W_0\)</span> not directly affecting the immediate treatment <span class="math inline">\(A_1\)</span> to <span class="math inline">\(Y\)</span>, the mean counterfactual outcome <span class="math inline">\(E[Y^g]\)</span> is identifiable with static strategy but not with dynamic strategy (will follow up on this later with SWIGs).</p>
+<p><img src="images/clipboard-518200905.png" class="img-fluid"></p>
+</section>
+<section id="sequential-positivity" class="level4">
+<h4 class="anchored" data-anchor-id="sequential-positivity">Sequential Positivity</h4>
+<p>In SRE, positivity holds if the randomization probabilities at each time <span class="math inline">\(k\)</span> are never either 0 or 1, regardless of the past history <span class="math inline">\((\bar{A}_{k-1}, \bar{L}_{k})\)</span>. That is, as long as <span class="math inline">\(\bar{A}_{k-1} \not\perp \bar{L}_{k}\)</span>, then the treatment assignment probability for <span class="math inline">\(A_k\)</span> at <span class="math inline">\(k\)</span> is not 0.</p>
+<p><span class="math display">\[
+\text{If } f_{\bar{A}_{k-1}, \bar{L}_k}(\bar{a}_{k-1}, \bar{l}_k) \neq 0
+\text{, then }
+f_{A_k|\bar{A}_{k-1}, \bar{L}_k}(\bar{a}_{k-1}, \bar{l}_k) &gt; 0
+\:\forall(\bar{a}_{k-1}, \bar{l}_k)
+\]</span></p>
+</section>
+<section id="sequential-consistency-need-review" class="level4">
+<h4 class="anchored" data-anchor-id="sequential-consistency-need-review">Sequential Consistency [NEED REVIEW]</h4>
+<p>We define sequential consistency with dependence to the past history.</p>
+<p><span class="math display">\[\begin{align}
+Y^{\bar{a}} = Y^{\bar{a}^*} &amp;\text{ if }\:\bar{a}=\bar{a}^*&amp;&amp;
+\cdots\text{outcome is identical under the same strategies}\\
+Y = Y^{\bar{a}} &amp;\text{ if }\:\bar{A}=\bar{a}&amp;&amp;
+\cdots\text{outcome is consistent under the same treatment history}\\
+\bar{L}^{\bar{a}}_{k} = \bar{L}^{\bar{a}^*}_{k} &amp;\text{ if }\: \bar{a}_{k-1}=\bar{a}_{k-1}^*&amp;&amp;
+\cdots\text{covariate history through k are identical under the same strategies}\\
+\bar{L}_{k} = \bar{L}^{\bar{a}}_{k} &amp;\text{ if }\: \bar{A}_{k-1}=\bar{a}_{k-1}&amp;&amp;
+\cdots\text{covariate history through k are consistent under the same treatment history}
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(\bar{L}^{\bar{a}}_{k}\)</span> is the counterfactual L-history through time <span class="math inline">\(k\)</span> under strategy <span class="math inline">\(\bar{a}\)</span>.</p>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="causal_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="288"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

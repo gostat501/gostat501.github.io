@@ -16,7 +16,11 @@ Looking ahead, my goal over the next five years is to pursue a Ph.D. in Statisti
 
 # Resources
 
-These are some documents of mine that could be useful for undergraduates.
+Study material
+- [Causal Inference](/causal/) 
+
+
+These are some documents of mine that could be useful.
 
 - [UCLA STATS102B Practice Midterm](https://github.com/Gostat501/gostat501.github.io/tree/master/file/2019.04_UCLA_STATS102B_practice_midterm)
 - [About](/about/) 
