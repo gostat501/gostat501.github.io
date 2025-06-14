@@ -18,6 +18,7 @@ Looking ahead, my goal over the next five years is to pursue a Ph.D. in Statisti
 
 Study material
 - [Causal Inference](./file/causal.html) 
+- [Causal Inference](https://github.com/gostat501/ds/blob/main/statistics/causal/causal.html)
 
 
 These are some documents of mine that could be useful.
