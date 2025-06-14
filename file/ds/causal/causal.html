@@ -316,7 +316,39 @@ Y^{\bar{a}}\perp A_k|\bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_k\quad\text{for }k=1
 <h4 class="anchored" data-anchor-id="definition-of-time-varying-confounding">Definition of Time-Varying Confounding</h4>
 <p>In the absence of selection bias, we say there is confounding for causal effects involving <span class="math inline">\(E[Y^{\bar{a}}]\)</span> if <span class="math inline">\(E[Y^{\bar{a}}]\neq E[Y|A=\bar{a}]\)</span> , meaning, consistency is not held, and all individuals in the study followed strategy <span class="math inline">\(\bar{a}\)</span> differs from the mean outcome among the subset of individuals who followed strategy <span class="math inline">\(\bar{a}\)</span> in the actual study. We say the <strong>confounding is solely time-fixed</strong> when, attributing to baseline covariates only, <span class="math inline">\(E[Y^{\bar{a}}|L_0] = E[Y|A=\bar{a}, L_0]\)</span>. If this does not hold i.e., <span class="math inline">\(E[Y^{\bar{a}}|L_0] \neq E[Y|A=\bar{a}, L_0]\)</span>, then we say that <strong>time-varying confounding is present</strong>. A sufficient condition for no time-varying confounding is unconditional sequential exchangeability <span class="math inline">\(Y^{\bar{a}}\perp A_k|\bar{A}_{k-1} = \bar{a}_{k-1}\)</span> i.e., SWIG only involving <span class="math inline">\(A_0\)</span>, <span class="math inline">\(A_1\)</span>, and <span class="math inline">\(Y\)</span>.</p>
 <hr>
-<p>Next Chapter…</p>
+</section>
+</section>
+</section>
+<section id="ch20-treatment-confounder-feedback" class="level2">
+<h2 class="anchored" data-anchor-id="ch20-treatment-confounder-feedback">CH20: Treatment-Confounder Feedback</h2>
+<ul>
+<li><p>Structure of treatment-confounder feedback in time-varying treatment setting, and why tradtional adjustments methods for confounding fails with its presence.</p></li>
+<li><p>Effort: &lt; 1 week</p></li>
+</ul>
+</section>
+<section id="ch21-g-methods-for-time-varying-treatments" class="level2">
+<h2 class="anchored" data-anchor-id="ch21-g-methods-for-time-varying-treatments">CH21: G-Methods for Time-Varying Treatments</h2>
+<ul>
+<li><p>Use of g-methods (g-formula, IPW, g-estimation, doubly-robust generalizations) to estimate causal effect of time-varying treatment under the presence of treatment-confounder feedback.</p></li>
+<li><p>**This chapter is long, full of long equations. Be ready for a potential mash-up with the baseline method notations to save some time and space for note taking.</p></li>
+<li><p>Effort: &lt; 3 weeks</p></li>
+</ul>
+</section>
+<section id="ch22-target-trial-emulation" class="level2">
+<h2 class="anchored" data-anchor-id="ch22-target-trial-emulation">CH22: Target-Trial Emulation</h2>
+<ul>
+<li><p>Target Trial: Observational data can be viewed as an attempt to emulate a hypothetical randomized trial.</p></li>
+<li><p>This chapter generalizes the concept of the target trial to sustained treatment strategies and outlines a unified framework for causal inference, regardless of whether the data arose from a randomized experiment or an observational study.</p></li>
+<li><p>It also describes a taxonomy of causal effects that may be of interest when emulating a target trial, including observational analogs of intention-to-treat and per-protocol effects. If data are available on all important fixed and time-varying confounders, the effects of interest can now be validly estimated.</p></li>
+<li><p>Effort: 1.5 week</p></li>
+</ul>
+</section>
+<section id="ch23-causal-mediation" class="level2">
+<h2 class="anchored" data-anchor-id="ch23-causal-mediation">CH23: Causal Mediation</h2>
+<ul>
+<li><p>Causal mediation: The study of the causal pathways through which the treatment affects the outcome; mediation analysis involves the treatment of interest and the mediator at different times, opening empirical verification of the causal estimates.</p></li>
+<li><p>Effort: &lt; 1 week</p></li>
+</ul>
 <hr>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -327,8 +359,6 @@ Y^{\bar{a}}\perp A_k|\bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_k\quad\text{for }k=1
 </div>
 </div>
 </div>
-</section>
-</section>
 </section>
 </section>
 

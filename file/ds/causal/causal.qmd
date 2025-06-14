@@ -275,7 +275,35 @@ In the absence of selection bias, we say there is confounding for causal effects
 
 ------------------------------------------------------------------------
 
-Next Chapter...
+## CH20: Treatment-Confounder Feedback
+
+-   Structure of treatment-confounder feedback in time-varying treatment setting, and why tradtional adjustments methods for confounding fails with its presence.
+
+-   Effort: \< 1 week
+
+## CH21: G-Methods for Time-Varying Treatments
+
+-   Use of g-methods (g-formula, IPW, g-estimation, doubly-robust generalizations) to estimate causal effect of time-varying treatment under the presence of treatment-confounder feedback.
+
+-   \*\*This chapter is long, full of long equations. Be ready for a potential mash-up with the baseline method notations to save some time and space for note taking.
+
+-   Effort: \< 3 weeks
+
+## CH22: Target-Trial Emulation
+
+-   Target Trial: Observational data can be viewed as an attempt to emulate a hypothetical randomized trial.
+
+-   This chapter generalizes the concept of the target trial to sustained treatment strategies and outlines a unified framework for causal inference, regardless of whether the data arose from a randomized experiment or an observational study.
+
+-   It also describes a taxonomy of causal effects that may be of interest when emulating a target trial, including observational analogs of intention-to-treat and per-protocol effects. If data are available on all important fixed and time-varying confounders, the effects of interest can now be validly estimated.
+
+-   Effort: 1.5 week
+
+## CH23: Causal Mediation
+
+-    Causal mediation: The study of the causal pathways through which the treatment affects the outcome; mediation analysis involves the treatment of interest and the mediator at different times, opening empirical verification of the causal estimates.
+
+-   Effort: \< 1 week
 
 ------------------------------------------------------------------------
 
