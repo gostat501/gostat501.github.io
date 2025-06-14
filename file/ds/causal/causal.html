@@ -102,15 +102,13 @@ window.Quarto = {
 <section id="to-do" class="level1">
 <h1>To-Do</h1>
 <ul>
-<li><p>Skim SWIG 6/6</p></li>
-<li><p>Skim 19.5. Q: blocking backdoor criterion does not directly show the connection between blocking backdoor parhhts and sequential exchangeability, because the procedure is based on causal directed acyclic graphst that do not include counterfactual outcomes” - what do you mean</p></li>
-</ul>
-<p><img src="images/clipboard-3862352408.png" class="img-fluid"></p>
-<p><img src="images/clipboard-4143449233.png" class="img-fluid"></p>
-<p><img src="images/clipboard-2778865624.png" class="img-fluid"></p>
+<li><p>Future review</p>
 <ul>
-<li><p>Skim 19.6</p></li>
-<li><p>Quarto all 3 items above</p></li>
+<li><p>d-separation rules</p></li>
+<li><p>Fix: Sequential exchangeability - static vs.&nbsp;dynamic (take technical point 19.3 and pg257)</p></li>
+<li><p>P256-257, technical point 19.3 vs.&nbsp;dynamic 1, why (Y,L)\perp A vs.&nbsp;Y\perp A? Why one includes L in a joint format while the other doesn’t for exchangeability under dynamic strategy?</p></li>
+<li><p>S&amp;D3, why <span class="math inline">\(A\leftarrow L \rightarrow Y\)</span> would make SWIG to not hold conditional exchangeability? Same for D2 - check d-separation</p></li>
+</ul></li>
 <li><p>Skim read headers of Ch20 - 22 sections, set expectations and write down ideas</p></li>
 <li><p>Decide a temporal switch to network x causal</p></li>
 </ul>
@@ -142,8 +140,21 @@ window.Quarto = {
 </section>
 <section id="confounding" class="level2">
 <h2 class="anchored" data-anchor-id="confounding">Confounding</h2>
-<section id="single-world-intervention-graphs" class="level3">
-<h3 class="anchored" data-anchor-id="single-world-intervention-graphs">Single-World Intervention Graphs</h3>
+<section id="d-separaration" class="level3">
+<h3 class="anchored" data-anchor-id="d-separaration">d-Separaration</h3>
+<p>aaa</p>
+</section>
+<section id="single-world-intervention-graphs-swig" class="level3">
+<h3 class="anchored" data-anchor-id="single-world-intervention-graphs-swig">Single-World Intervention Graphs (SWIG)</h3>
+<p>Potential outcome framework is not encapsulated in causal diagrams as-is. Single world intervention graphs (SWIG) unifies counterfactual and graphical approaches by explicitly including the counterfactual variables on the graph. The <strong>SWIG 1</strong> shows that the equivalence of conditional exchangeability <span class="math inline">\(Y^a\perp A|L\)</span> and the backdoor criterion (with all path blocked between <span class="math inline">\(Y^a\)</span> and <span class="math inline">\(A\)</span> after conditioning on <span class="math inline">\(L\)</span>), whereas <strong>SWIG 2</strong> also visually shows the exchangeability <span class="math inline">\(Y^a\perp A|L\)</span> would NOT hold, and conditioning (blocking) on <span class="math inline">\(L\)</span> would lead to a biased estimate.</p>
+<p><strong>DAG 1</strong></p>
+<p><img src="images/clipboard-97384580.png" class="img-fluid"></p>
+<p><strong>SWIG 1</strong></p>
+<p><img src="images/clipboard-3938487221.png" class="img-fluid"></p>
+<p><strong>DAG 2</strong></p>
+<p><img src="images/clipboard-1367899619.png" class="img-fluid"></p>
+<p><strong>SWIG 2</strong></p>
+<p><img src="images/clipboard-2296119913.png" class="img-fluid"></p>
 </section>
 </section>
 </section>
@@ -253,6 +264,59 @@ Y = Y^{\bar{a}} &amp;\text{ if }\:\bar{A}=\bar{a}&amp;&amp;
 \cdots\text{covariate history through k are consistent under the same treatment history}
 \end{align}\]</span></p>
 <p>where <span class="math inline">\(\bar{L}^{\bar{a}}_{k}\)</span> is the counterfactual L-history through time <span class="math inline">\(k\)</span> under strategy <span class="math inline">\(\bar{a}\)</span>.</p>
+<hr>
+</section>
+</section>
+<section id="single-world-intervention-graphs-swig-on-time-varying-treatment-various-form-of-exchangeability" class="level3">
+<h3 class="anchored" data-anchor-id="single-world-intervention-graphs-swig-on-time-varying-treatment-various-form-of-exchangeability">Single-World Intervention Graphs (SWIG) on Time-Varying Treatment; Various Form of Exchangeability</h3>
+<p>Similar to time-fixed cases, we can use SWIG to represent time-varying treatment. SWIGs include the counterfactual outcome, which means we can visually verify exchangeability using d-separation.</p>
+<p>With SWIG, we can also verify that conditions for exchangeability to hold vary by 1. presence of various unmeasured covariate(s) 2. static strategy vs.&nbsp;dynamic strategy.</p>
+<p><strong>Case 1:</strong> Unmeasured covariate <span class="math inline">\(L_1\leftarrow U_1 \rightarrow Y\)</span> - exchangeability holds for static strategy and dynamic strategy.</p>
+<p><img src="images/clipboard-4235513200.png" class="img-fluid"></p>
+<p><strong>SWIG (static) 1:</strong> Two conditional independence hold: <span class="math inline">\(Y^{a_0, a_1}\perp A_0\)</span> and <span class="math inline">\(Y^{a_0, a_1}\perp A_1|A_0=a_0, L_1\)</span> for any static strategy <span class="math inline">\((a_0, a_1)\)</span>. More generally, below <strong>static sequential exchangeability</strong> hold. This is a weaker condition given that it only requires conditional independence between counterfactual outcome <span class="math inline">\(Y^{\bar{a}}\)</span> under any static strategy <span class="math inline">\(g=\bar{a}\)</span>.</p>
+<p><span class="math display">\[
+Y^{\bar{a}}\perp A_k|\bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_k\quad\text{for }k=1,\dots,K
+\]</span></p>
+<p>As we consider multiple points <span class="math inline">\(k=0,\dots,K\)</span>, a stronger version of static sequential exchangeability includes <span class="math inline">\(\underline{L}^{\bar{a}}_{k+1}\)</span>, the counterfactual covariate history from time <span class="math inline">\(k+1\)</span> through the end of follow-up. With consistency assumption, that would be:</p>
+<p><span class="math display">\[
+(Y^{\bar{a}}, \underline{L}^{\bar{a}}_{k+1})\perp A_k|\bar{A}_{k-1} = \bar{a}_{k-1}, \bar{L}_k\quad\text{for }k=1,\dots,K
+\]</span></p>
+<p>Assume a version of below SWIG where there is an additional arrow from <span class="math inline">\(U_1\)</span> to <span class="math inline">\(A^{a_0}_1\)</span>. With this case, no form of sequential exchangeability would hold.</p>
+<p><img src="images/clipboard-179046077.png" class="img-fluid"></p>
+<p><strong>SWIG (dynamic) 1:</strong> The SWIG includes a dotted arrow <span class="math inline">\(L^{g}_1 \rightarrow g_1(L^g_1)\)</span>, because we are assuming a counterfactual world associated with a dynamic strategy. Thus, we need to draw this arrow differently from others, even though we still treat is like other arrows when evaluating d-separation. Applying d-separation to this SWIG, two conditional independence hold: <span class="math inline">\(Y^{g}\perp A_0\)</span> and <span class="math inline">\(Y^{g}\perp A_1|A_0=g_0, L_1\)</span> for any dynamic strategy <span class="math inline">\(g\)</span>.</p>
+<p>However as we consider multiple points <span class="math inline">\(k=0,\dots,K\)</span>, we need to include <span class="math inline">\(\underline{L}^, {\bar{a}}_{k+1}\)</span>the counterfactual covariate history from time <span class="math inline">\(k+1\)</span> through the end of follow-up as below.</p>
+<p><span class="math display">\[
+(Y^{g}, \underline{L}^{g}_{k+1})\perp A_k|\bar{A}_{k-1} = g(\bar{A}_{k-1}, \bar{L}_k), \bar{L}_k\quad\text{for }k=1,\dots,K\text{ and all } g
+\]</span></p>
+<p>If positivity holds, this is sufficient to identify the outcome and covariate distribution under any static and dynamic strategies <span class="math inline">\(g\)</span>. For dynamic strategies, separate independence on <span class="math inline">\(Y^g\)</span> and <span class="math inline">\(\underline{L}^{\bar{a}}_{k+1}\)</span> does not hold <strong>[NEED DEEPER REVIEW WHY IN COMPARISON TO ABOVE STATEMENT]</strong>.</p>
+<p><img src="images/clipboard-1803475518.png" class="img-fluid"></p>
+<p><strong>Case 2:</strong> Unmeasured covariate <span class="math inline">\(A_0\leftarrow W_0 \rightarrow L1\)</span> - exchangeability holds for static strategy but NOT dynamic strategy.</p>
+<p><img src="images/clipboard-2832821692.png" class="img-fluid"></p>
+<p><strong>SWIG (static) 2:</strong> Even with an unmeasured covariate <span class="math inline">\(W_0\)</span>, two conditional exchangeabilities <span class="math inline">\(Y^{a_0, a_1}\perp A_0\)</span> and <span class="math inline">\(Y^{a_0, a_1}\perp A_1|A_0=a_0, L_1\)</span> for any static strategy <span class="math inline">\((a_0, a_1)\)</span> still hold by applying d-separation.</p>
+<p><img src="images/clipboard-400085540.png" class="img-fluid"></p>
+<p><strong>SWIG (dynamic) 2:</strong> By applying d-separation, <span class="math inline">\(Y^g\perp A_0\)</span> does not hold because of the open path <span class="math inline">\(A_0\leftarrow W_0\rightarrow L^g_1 \rightarrow g_1(L^g_1)\rightarrow Y^g\)</span>. Thus, sequential exchangeability for <span class="math inline">\(Y^g\)</span> does not hold.</p>
+<p><img src="images/clipboard-1436239050.png" class="img-fluid"></p>
+<p><strong>Case 3:</strong> Using d-separation, it shows that neither static sequential exchangeability <span class="math inline">\(Y^{\bar{a}}\)</span> nor dynamic sequential exchangeability <span class="math inline">\(Y^g\)</span> hold, because of open path <span class="math inline">\(A_0\leftarrow W_0 \rightarrow L_1 \rightarrow Y\)</span>, and thus, we cannot estimate causal effects in this scenario involving any strategies.</p>
+<p><img src="images/clipboard-2262166617.png" class="img-fluid"></p>
+<p><img src="images/clipboard-3635992770.png" class="img-fluid"></p>
+<section id="full-sequential-exchangeability" class="level4">
+<h4 class="anchored" data-anchor-id="full-sequential-exchangeability">Full Sequential Exchangeability</h4>
+<p>A strong condition that is expected to hold in sequentially randomized experiment is</p>
+<p><span class="math display">\[
+(Y^{\bar{\mathcal{A}}}, \bar{L}^{\bar{\mathcal{A}}})\perp A_k|\bar{A}_{k-1}, \bar{L}_k
+\]</span></p>
+<p>where, for a dichotomous treatment <span class="math inline">\(A_k\)</span>, <span class="math inline">\(\bar{\mathcal{A}}\)</span> denotes the set of all <span class="math inline">\(2^K\)</span> static strategies <span class="math inline">\(\bar{a}\)</span>, <span class="math inline">\(Y^{\bar{\mathcal{A}}}\)</span> denotes the set of all counterfactual outcomes <span class="math inline">\(Y^{\bar{a}}\)</span>, and <span class="math inline">\(\bar{L}^{\bar{\mathcal{A}}}\)</span> denotes the set of all counterfactual covariate histories. This joint independence condition is called <strong>full sequential exchangeability</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="time-varying-confounders-push-this-to-later-section" class="level3">
+<h3 class="anchored" data-anchor-id="time-varying-confounders-push-this-to-later-section">Time-Varying Confounders [Push this to later section]</h3>
+<p>For both time-fixed and time-varying cases, we need to rely on expert knowledge to design studies and measure as many relevant covariates <span class="math inline">\(\bar{L}_k\)</span> to have more promising possibility of securing sequential exchangeability in observational studies. This is especially true when considering potential time-varying confounders that affect both treatment history <span class="math inline">\(\bar{A}\)</span> and the outcome <span class="math inline">\(Y\)</span> to not bias estimates on causal effects. While there is no way to empirically confirm that all confounders are measured, even in the case of correctly measuring and modeling all confounderes, most adjustments method may still result in biased estimates when comparing treatment strategies. Thus, <strong>g-methods</strong> are the appropriate approach to adjust for time-varying confounders.</p>
+<section id="definition-of-time-varying-confounding" class="level4">
+<h4 class="anchored" data-anchor-id="definition-of-time-varying-confounding">Definition of Time-Varying Confounding</h4>
+<p>In the absence of selection bias, we say there is confounding for causal effects involving <span class="math inline">\(E[Y^{\bar{a}}]\)</span> if <span class="math inline">\(E[Y^{\bar{a}}]\neq E[Y|A=\bar{a}]\)</span> , meaning, consistency is not held, and all individuals in the study followed strategy <span class="math inline">\(\bar{a}\)</span> differs from the mean outcome among the subset of individuals who followed strategy <span class="math inline">\(\bar{a}\)</span> in the actual study. We say the <strong>confounding is solely time-fixed</strong> when, attributing to baseline covariates only, <span class="math inline">\(E[Y^{\bar{a}}|L_0] = E[Y|A=\bar{a}, L_0]\)</span>. If this does not hold i.e., <span class="math inline">\(E[Y^{\bar{a}}|L_0] \neq E[Y|A=\bar{a}, L_0]\)</span>, then we say that <strong>time-varying confounding is present</strong>. A sufficient condition for no time-varying confounding is unconditional sequential exchangeability <span class="math inline">\(Y^{\bar{a}}\perp A_k|\bar{A}_{k-1} = \bar{a}_{k-1}\)</span> i.e., SWIG only involving <span class="math inline">\(A_0\)</span>, <span class="math inline">\(A_1\)</span>, and <span class="math inline">\(Y\)</span>.</p>
+<hr>
+<p>Next Chapter…</p>
 <hr>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
