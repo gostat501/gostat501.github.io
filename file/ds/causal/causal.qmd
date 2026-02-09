@@ -173,7 +173,78 @@ Resource:
 
 -   Computationally heavy to implement designs & probabilities
 
+-   Construct clusters with probability of $1/d^2$ (degree) for all its neighbors to be in the same cluster, so as sample size increase, as does the number of clusters
+
+-   Give treatment at cluster-unit
+
+Spatial Interference
+
+Model-based Interference
+
+**Confounding due to Network Interference**
+
+-   Network can introduce confounding (additional path from unobserved confounder)
+
+-   Nodes with more degree = high chance of the nodes are treated = more path for confounder
+
+-   Linear-in-Mean Models - relies on $\phi$ to be correct function
+
+![](images/clipboard-2412392172.png){width="490"}
+
+Neighborhood Interference
+
+-   Potential outcome is only a function of neighborhood treatment
+
+Low Order Interactions
+
+-   if network effects are additive across subcommunities, then degree would be at most size of largest subcommunity
+
+Heterogeneous Additive Network Effects
+
+Pseudoinverse Estimator
+
+**Experiments across Time**
+
+-   **Staggered Rollout Bernoulli Design + TTE**
+
+**Design and Analysis of Switchback Experiments**
+
+-   **Cluster RD on a line graph**
+
+-   Markovian Dynamics + Geometric Mixing
+
+**Paper to Read**
+
+-   Christina Lee Yu, Edo Airoldi, Christian Borgs, and Jennifer Chayes. “Estimating Total Treatment Effect in Randomized Experiments with Unknown
+    Network Structure ”. PNAS, 2022.
+
+-   Mayleen Cortez-Rodriguez, Matthew Eichhorn, Christina Lee Yu. “Staggered Rollout Designs Enable Causal Inference Under Interference Without
+    Network Knowledge.” Neurips, 2022.
+
+-   Anish Agarwal, Sarah H. Cen, Devavrat Shah, Christina Lee Yu. “Network Synthetic Interventions: A Causal Framework for Panel Data Under
+    Network Interference.” Arxiv:2210.11355, 2024.
+
+-   Iavor Bojinov, David Simchi-Levi, Jinglong Zhao. “Design and Analysis of Switchback Experiments”. Management Science, 2022
+
+-   Yuchen Hu, Stefan Wager - “Switchback Experiments under Geometric Mixing”
+
+-   Su Jia, Nathan Kallus, Christina Lee Yu. “Clustered Switchback Experiments: Near-Optimal Rates Under Spatiotemporal Interference”
+
+<!-- -->
+
 -   
+
+Thoughts
+
+-   Time dimension as network graph, so dynamic network as fully graph?
+
+    -   Markovian dynamics + geometric mixing?
+
+-   Staggered roll out design?
+
+-   Generalized graph design?
+
+Edo - Christina Yu?
 
 # Causal Inference without Models
 

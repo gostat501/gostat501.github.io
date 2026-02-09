@@ -235,8 +235,60 @@ window.Quarto = {
 <ul>
 <li><p>3-net clustering for restricted-growth graphs - achieve low variance</p></li>
 <li><p>Computationally heavy to implement designs &amp; probabilities</p></li>
+<li><p>Construct clusters with probability of <span class="math inline">\(1/d^2\)</span> (degree) for all its neighbors to be in the same cluster, so as sample size increase, as does the number of clusters</p></li>
+<li><p>Give treatment at cluster-unit</p></li>
+</ul>
+<p>Spatial Interference</p>
+<p>Model-based Interference</p>
+<p><strong>Confounding due to Network Interference</strong></p>
+<ul>
+<li><p>Network can introduce confounding (additional path from unobserved confounder)</p></li>
+<li><p>Nodes with more degree = high chance of the nodes are treated = more path for confounder</p></li>
+<li><p>Linear-in-Mean Models - relies on <span class="math inline">\(\phi\)</span> to be correct function</p></li>
+</ul>
+<p><img src="images/clipboard-2412392172.png" class="img-fluid" width="490"></p>
+<p>Neighborhood Interference</p>
+<ul>
+<li>Potential outcome is only a function of neighborhood treatment</li>
+</ul>
+<p>Low Order Interactions</p>
+<ul>
+<li>if network effects are additive across subcommunities, then degree would be at most size of largest subcommunity</li>
+</ul>
+<p>Heterogeneous Additive Network Effects</p>
+<p>Pseudoinverse Estimator</p>
+<p><strong>Experiments across Time</strong></p>
+<ul>
+<li><strong>Staggered Rollout Bernoulli Design + TTE</strong></li>
+</ul>
+<p><strong>Design and Analysis of Switchback Experiments</strong></p>
+<ul>
+<li><p><strong>Cluster RD on a line graph</strong></p></li>
+<li><p>Markovian Dynamics + Geometric Mixing</p></li>
+</ul>
+<p><strong>Paper to Read</strong></p>
+<ul>
+<li><p>Christina Lee Yu, Edo Airoldi, Christian Borgs, and Jennifer Chayes. “Estimating Total Treatment Effect in Randomized Experiments with Unknown Network Structure”. PNAS, 2022.</p></li>
+<li><p>Mayleen Cortez-Rodriguez, Matthew Eichhorn, Christina Lee Yu. “Staggered Rollout Designs Enable Causal Inference Under Interference Without Network Knowledge.” Neurips, 2022.</p></li>
+<li><p>Anish Agarwal, Sarah H. Cen, Devavrat Shah, Christina Lee Yu. “Network Synthetic Interventions: A Causal Framework for Panel Data Under Network Interference.” Arxiv:2210.11355, 2024.</p></li>
+<li><p>Iavor Bojinov, David Simchi-Levi, Jinglong Zhao. “Design and Analysis of Switchback Experiments”. Management Science, 2022</p></li>
+<li><p>Yuchen Hu, Stefan Wager - “Switchback Experiments under Geometric Mixing”</p></li>
+<li><p>Su Jia, Nathan Kallus, Christina Lee Yu. “Clustered Switchback Experiments: Near-Optimal Rates Under Spatiotemporal Interference”</p></li>
+</ul>
+<!-- -->
+<ul>
 <li></li>
 </ul>
+<p>Thoughts</p>
+<ul>
+<li><p>Time dimension as network graph, so dynamic network as fully graph?</p>
+<ul>
+<li>Markovian dynamics + geometric mixing?</li>
+</ul></li>
+<li><p>Staggered roll out design?</p></li>
+<li><p>Generalized graph design?</p></li>
+</ul>
+<p>Edo - Christina Yu?</p>
 </section>
 </section>
 </section>
