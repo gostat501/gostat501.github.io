@@ -212,7 +212,7 @@ window.Quarto = {
 <li><p>Implementation: Use a model/simulation only to choose the randomization scheme (Pick the design that minimizes predicted variance / improves exposure balance), Run the chosen randomized design (still a known <span class="math inline">\(P(Z)\)</span>), Analyze design-based (HT/IPW + randomization inference), optionally add regression adjustment for variance reduction.</p></li>
 <li><p>When you know <strong>enough structure to plan smart randomization</strong> (clusters/saturation/restrictions) but don’t want to bet inference on the model, you use the model for design and randomization for validity.</p></li>
 <li><p>Difference with #1: Does your choice of randomization depend on a predictive/working model of outcomes/interference (for efficiency) - #3, or is the model only used to define the estimand/exposure and the inference stays valid without it? - #1</p></li>
-<li><p>Source of noise: For inference, the noise is still the randomization/sampling mechanism like randomization-based.</p></li>
+<li><p>Source of noise: For inference, the noise is still the randomization/sampling mechanism like randomization-based. But, the model adds a planning layer, not an inference layer: It’s used to choose a design that will likely have lower variance / better exposure balance. If the model is wrong, what changes is efficiency/power, not the validity of the uncertainty calculation—as long as you still know/track the true assignment probabilities.</p></li>
 </ul></li>
 </ul>
 <p><strong>Horvitz-Thompson Estimator</strong></p>

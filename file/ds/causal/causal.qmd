@@ -145,7 +145,7 @@ Resource:
 
     -   Difference with #1: Does your choice of randomization depend on a predictive/working model of outcomes/interference (for efficiency) - #3, or is the model only used to define the estimand/exposure and the inference stays valid without it? - #1
 
-    -   Source of noise: For inference, the noise is still the randomization/sampling mechanism like randomization-based.
+    -   Source of noise: For inference, the noise is still the randomization/sampling mechanism like randomization-based. But, the model adds a planning layer, not an inference layer: It’s used to choose a design that will likely have lower variance / better exposure balance. If the model is wrong, what changes is efficiency/power, not the validity of the uncertainty calculation—as long as you still know/track the true assignment probabilities.
 
 **Horvitz-Thompson Estimator**
 
