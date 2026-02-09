@@ -37,6 +37,144 @@ library(ggdag)
 
 -   <http://miguelhernan.org/whatifbook>
 
+# Study Notes
+
+### Causal Inference in Complex Systems with Network Interference and Temporal Dynamics
+
+Resource:
+
+-   <https://www.sigmetrics.org/sigmetrics2024/tutorials/2024_06_10_SIGMETRICS_tutorial.pdf>
+
+#### Introduction
+
+-   SUTVA - unit i's outcome don't affect j's
+
+-   Network intference - study Total Treatment Effect / Global Average Treatment Effect (GATE) - all treated - no one treated
+
+-   Exposure Mapping - ?
+
+-   Network Interference Challenge - TTE biased
+
+#### Interference
+
+-   Temporal Interference - interference path can be represented as a sequential line graph, from t-1 to t, t to t+1 etc.
+
+-   Markovian Interference - temporal dependence + states
+
+    -   $Y_t$ is a function of the state $X_t$, affected by treatment $Z_t$ and state $X_{t-1}$
+
+![](images/clipboard-3685820932.png){width="498"}
+
+-   Spatio-temporal Interference
+
+-   Estimate potential outcome of Z' from Z - model (with strong assumption) vs. experimentation (to mitigate assumptions)
+
+#### Design of Experiment
+
+**Outline**
+
+-   Randomized Design - distribution for assigning treatment/control
+
+    -   Choose treatment assignments by a known randomization rule (possibly graph-aware) and estimate effects using that randomization.
+
+    -   Trust the design, not a model - validity comes from $P(Z)$, treating outcomes as fixed under the design.
+
+    -   Cluster-based randomized designs that exploit **graph structure**
+
+    -   Use application specific structure to reduce bias via experimental design
+
+-   Model based Estimator - method to process data collected from experiment
+
+    -   Specify a probabilistic outcome + network dependence/interference model and design/estimate under that model (likelihood/Bayes).
+
+    -   Trust the model - learn effects by fitting a structured data-generating process.
+
+    -   Use regression to exploit **structure in the potential outcomes model**
+
+    -   Use application specific structure to construct estimator
+
+-   Experiments over time - richer measurements, complex dynamics
+
+-   Model-assisted randomized
+
+    -   Use a model to pick a good randomization scheme, but do inference with design-based guarantees.
+
+    -   Model for planning, randomization for credibility.
+
+**Example**
+
+-   Scenario:
+
+    -   You’re launching a new “AI summarization” feature in an app. Users are connected by a follow/friend graph.
+
+    -   Outcome: Y - weekly retention
+
+    -   Interference: 'if my friends get the feature, they talk about it / share clips → affects me.
+
+-   **Randomized Network Design**
+
+    -   Goal: credible ATE/spillover claims with minimal modeling assumptions.
+
+    -   Implementation: Graph-cluster randomization- Partition the user graph into clusters (e.g., via METIS / spectral partition) to minimize edges across clusters. Then, **randomize clusters to treatment/control** (or randomize cluster “saturation” rates).
+
+    -   When you **don’t know (or don’t trust) the network spillover mechanism**, you randomize using a credible rule (often with clustering/restrictions) and let the known assignment probabilities—not a model—carry the causal validity.
+
+    -   Source of noise: Assignment itself - treat potential outcomes as fixed facts, and the random pull was the source of noise - “we happened to treat a weird subset this time.”
+
+<!-- -->
+
+-   **Model-based Network Design**
+
+    -   Goal: maximum efficiency + mechanism (but you must be right-ish about the mwell, odel).
+
+    -   Implementation: Assume **a spillover model**, e.g. linear-in-means. Design treatment assignment strategy such that optimize some goal e.g. choose Z to maximize information or minimize estimation error etc.
+
+    -   When you’re **willing to assume a specific interference/spillover model** (or distributional structure), you fit that model to estimate the treatment effect more efficiently—at the cost of being wrong if the model is wrong.
+
+    -   Source of noise: outcome-generating randomness $\epsilon$ of $Y=a+\beta Z + \epsilon$, so model estimates the both outcomes (treated/control) - “even for the same treatment, outcomes are noisy draws from a probabilistic world (plus model misspecification risk).”
+
+<!-- -->
+
+-   **Model-assisted Randomized Design**
+
+    -   Goal: keep design-based credibility, but use a model to avoid dumb randomizations.
+
+    -   Implementation: Use a model/simulation only to choose the randomization scheme (Pick the design that minimizes predicted variance / improves exposure balance), Run the chosen randomized design (still a known $P(Z)$), Analyze design-based (HT/IPW + randomization inference), optionally add regression adjustment for variance reduction.
+
+    -   When you know **enough structure to plan smart randomization** (clusters/saturation/restrictions) but don’t want to bet inference on the model, you use the model for design and randomization for validity.
+
+    -   Difference with #1: Does your choice of randomization depend on a predictive/working model of outcomes/interference (for efficiency) - #3, or is the model only used to define the estimand/exposure and the inference stays valid without it? - #1
+
+    -   Source of noise: For inference, the noise is still the randomization/sampling mechanism like randomization-based.
+
+**Horvitz-Thompson Estimator**
+
+-   $\hat{\tau}=\frac{1}{N}\sum^N_{i=1}Y_i\left\{ \frac{Z_i}{P(Z_i=1)} - \frac{1-Z_i}{P(Z_i=0)} \right\}$
+
+-   A general unequal-probability sampling estimator, not just for experiment
+
+-   For the average treatment effect $\tau = \frac{1}{N}\sum^N_{i=1}Y_i(1) - Y_i(0)$
+
+-   Probability denominator - IPTW, so blow up when P of either are so small / unbalanced
+
+    -   Show this by upperbound
+
+![](images/clipboard-1386835465.png){width="489"}
+
+**Partial Interference**
+
+-   Partial interference is the assumption that interference exists, but only within pre-defined groups, and does not cross groups; Units can affect each other’s outcomes inside the same cluster/block, but units in different clusters don’t affect each other. Achieve low variance for HT-estimator
+
+-   Literature consider - varying treatment fraction to estimate finer estimands beyond TTE; consider observational data
+
+**Cluster Randomized Design**
+
+-   3-net clustering for restricted-growth graphs - achieve low variance
+
+-   Computationally heavy to implement designs & probabilities
+
+-   
+
 # Causal Inference without Models
 
 ## Basics/Notes
@@ -301,7 +439,7 @@ In the absence of selection bias, we say there is confounding for causal effects
 
 ## CH23: Causal Mediation
 
--    Causal mediation: The study of the causal pathways through which the treatment affects the outcome; mediation analysis involves the treatment of interest and the mediator at different times, opening empirical verification of the causal estimates.
+-   Causal mediation: The study of the causal pathways through which the treatment affects the outcome; mediation analysis involves the treatment of interest and the mediator at different times, opening empirical verification of the causal estimates.
 
 -   Effort: \< 1 week
 
