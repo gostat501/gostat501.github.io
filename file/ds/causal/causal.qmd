@@ -177,7 +177,7 @@ Resource:
 
 -   Give treatment at cluster-unit
 
-Spatial Interference
+Spatial Interference \############## continue next, 2026/02/08
 
 Model-based Interference
 
