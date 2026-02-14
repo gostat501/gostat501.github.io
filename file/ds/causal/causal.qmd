@@ -215,14 +215,11 @@ Pseudoinverse Estimator
 
 **Paper to Read**
 
--   Christina Lee Yu, Edo Airoldi, Christian Borgs, and Jennifer Chayes. “Estimating Total Treatment Effect in Randomized Experiments with Unknown
-    Network Structure ”. PNAS, 2022.
+-   Christina Lee Yu, Edo Airoldi, Christian Borgs, and Jennifer Chayes. “Estimating Total Treatment Effect in Randomized Experiments with Unknown Network Structure ”. PNAS, 2022.
 
--   Mayleen Cortez-Rodriguez, Matthew Eichhorn, Christina Lee Yu. “Staggered Rollout Designs Enable Causal Inference Under Interference Without
-    Network Knowledge.” Neurips, 2022.
+-   Mayleen Cortez-Rodriguez, Matthew Eichhorn, Christina Lee Yu. “Staggered Rollout Designs Enable Causal Inference Under Interference Without Network Knowledge.” Neurips, 2022.
 
--   Anish Agarwal, Sarah H. Cen, Devavrat Shah, Christina Lee Yu. “Network Synthetic Interventions: A Causal Framework for Panel Data Under
-    Network Interference.” Arxiv:2210.11355, 2024.
+-   Anish Agarwal, Sarah H. Cen, Devavrat Shah, Christina Lee Yu. “Network Synthetic Interventions: A Causal Framework for Panel Data Under Network Interference.” Arxiv:2210.11355, 2024.
 
 -   Iavor Bojinov, David Simchi-Levi, Jinglong Zhao. “Design and Analysis of Switchback Experiments”. Management Science, 2022
 
